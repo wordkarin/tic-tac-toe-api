@@ -44,6 +44,11 @@ GEM
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     erubis (2.7.0)
+    factory_girl (4.7.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.7.0)
+      factory_girl (~> 4.7.0)
+      railties (>= 3.0.0)
     ffi (1.9.14)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -128,6 +133,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  factory_girl_rails
   listen (~> 3.0.5)
   pry-byebug
   puma (~> 3.0)
