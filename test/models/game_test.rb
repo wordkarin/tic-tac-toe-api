@@ -38,5 +38,10 @@ class GameTest < ActiveSupport::TestCase
         assert_invalid game
       end
     end
+
+    test "Game data has an optional played_at attribute" do
+      game = Game.new(data: attributes_for(:game).except(:played_at))
+      assert_valid game
+    end
   end
 end
