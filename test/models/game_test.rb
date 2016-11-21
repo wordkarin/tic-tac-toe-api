@@ -95,5 +95,15 @@ class GameTest < ActiveSupport::TestCase
         assert_invalid game
       end
     end
+
+    test "Game played_at must be a valid datetime" do
+      game = build(:game, played_at: DateTime.new(1815, 12, 10))
+      assert_valid game
+
+      ["not a date", ""].each do |value|
+        game = build(:game, played_at: value)
+        assert_invalid game
+      end
+    end
   end
 end
