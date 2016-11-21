@@ -9,4 +9,14 @@ class GameTest < ActiveSupport::TestCase
     refute_empty game.data
     assert game.persisted?
   end
+
+  class Validations < GameTest
+    test "can create a valid Game" do
+      game = create(:game_complete)
+
+      assert_not_nil game
+      assert game.valid?
+      assert game.persisted?
+    end
+  end
 end

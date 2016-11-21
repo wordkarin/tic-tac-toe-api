@@ -18,7 +18,7 @@ complete_data = {
 }
 
 FactoryGirl.define do
-  factory :game do
+  factory :game, aliases: [:game_complete] do
     data complete_data
   end
 end
