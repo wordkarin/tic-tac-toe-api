@@ -11,17 +11,23 @@ class GameTest < ActiveSupport::TestCase
   end
 
   class Validations < GameTest
-    test "can create a valid Game" do
-      game = create(:game)
-
+    def assert_valid(game)
       assert_not_nil game
       assert game.valid?
-      assert game.persisted?
     end
 
     def assert_invalid(game)
       assert_not_nil game
       refute game.valid?
+    end
+
+    test "can create a valid Game" do
+      game = build(:game)
+
+      assert_valid game
+
+      assert game.save
+      assert game.persisted?
     end
 
     # Test required attributes
