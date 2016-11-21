@@ -56,10 +56,10 @@ class Game < ApplicationRecord
         maxItems: 2
       },
       outcome: {
-        type: { "$ref": "#/definitions/outcome" }
+        "$ref": "#/definitions/outcome"
       },
       played_at: {
-        type: { "$ref": "#/definitions/played_date" }
+        "$ref": "#/definitions/played_date"
       }
     },
     required: [:board, :players, :outcome]
