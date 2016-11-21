@@ -83,5 +83,17 @@ class GameTest < ActiveSupport::TestCase
       game = build(:game, players: ["Player 1", "Player 2", "Player 3"])
       assert_invalid game
     end
+
+    test "Game outcome must be X, O, or draw" do
+      ["X", "O", "draw"].each do |value|
+        game = build(:game, outcome: value)
+        assert_valid game
+      end
+
+      ["", "invalid", "x", "o", "DRAW"].each do |value|
+        game = build(:game, outcome: value)
+        assert_invalid game
+      end
+    end
   end
 end
