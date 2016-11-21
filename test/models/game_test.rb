@@ -12,7 +12,7 @@ class GameTest < ActiveSupport::TestCase
 
   class Validations < GameTest
     test "can create a valid Game" do
-      game = create(:game_complete)
+      game = create(:game)
 
       assert_not_nil game
       assert game.valid?
@@ -22,25 +22,15 @@ class GameTest < ActiveSupport::TestCase
     def assert_invalid(game)
       assert_not_nil game
       refute game.valid?
-      refute game.save
     end
 
-    test "Game must have a board" do
-      game = build(:game_without_board)
+    # Test required attributes
+    [:board, :players, :outcome].each do |attr|
+      test "Game data must have a #{attr} attribute" do
+        game = Game.new(data: attributes_for(:game).except(attr))
 
-      assert_invalid game
-    end
-
-    test "Game must have a players list" do
-      game = build(:game_without_players)
-
-      assert_invalid game
-    end
-
-    test "Game must have an outcome" do
-      game = build(:game_without_outcome)
-
-      assert_invalid game
+        assert_invalid game
+      end
     end
   end
 end
