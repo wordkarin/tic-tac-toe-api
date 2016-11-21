@@ -43,5 +43,25 @@ class GameTest < ActiveSupport::TestCase
       game = Game.new(data: attributes_for(:game).except(:played_at))
       assert_valid game
     end
+
+    test "Game board must be an array of nine valid cells" do
+      game = build(:game, board: [" "] * 8)
+      assert_invalid game
+
+      game = build(:game, board: [" "] * 10)
+      assert_invalid game
+    end
+
+    test "Game board must be only valid cells" do
+      ["X", "O", " "].each do |value|
+        board = [value] * 9
+        game = build(:game, board: board)
+        assert_valid game
+
+        board[0] = ""
+        game = build(:game, board: board)
+        assert_invalid game
+      end
+    end
   end
 end
