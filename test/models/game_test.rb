@@ -63,5 +63,25 @@ class GameTest < ActiveSupport::TestCase
         assert_invalid game
       end
     end
+
+    test "Game players must be non-empty strings" do
+      players = attributes_for(:game)[:players]
+
+      players.length.times do |i|
+        invalid_players = players.dup
+        invalid_players[i] = ""
+        game = build(:game, players: invalid_players)
+
+        assert_invalid game
+      end
+    end
+
+    test "Game must have one or two players" do
+      game = build(:game, players: [])
+      assert_invalid game
+
+      game = build(:game, players: ["Player 1", "Player 2", "Player 3"])
+      assert_invalid game
+    end
   end
 end
