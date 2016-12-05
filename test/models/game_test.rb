@@ -106,4 +106,23 @@ class GameTest < ActiveSupport::TestCase
       end
     end
   end
+
+  class Attributes < GameTest
+    test "Game's default played_at date == created_at date" do
+      game = Game.new(data: attributes_for(:game).except(:played_at))
+      game.save
+
+      assert_includes game.data.keys, "played_at"
+      assert_equal game.created_at, game.data["played_at"]
+    end
+
+    test "Game accepts a specific date for played_at" do
+      played_at = DateTime.new(1815, 12, 10)
+      game = create(:game, played_at: played_at)
+
+      assert_includes game.data.keys, "played_at"
+      assert_equal played_at, game.data["played_at"]
+      assert_not_equal game.created_at, game.data["played_at"]
+    end
+  end
 end

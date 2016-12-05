@@ -8,11 +8,11 @@ class Game < ApplicationRecord
   # We interact with that field through the attribute
   # `data`.
   def data
-    JSON.parse(read_attribute(:json_data) || "{}")
+    defaults.merge(JSON.parse(read_attribute(:json_data) || "{}"))
   end
 
   def data=(data)
-    write_attribute(:json_data, (data || {}).to_json)
+    write_attribute(:json_data, defaults.merge(data || {}).to_json)
   end
 
 
@@ -72,6 +72,13 @@ class Game < ApplicationRecord
   end
 
   private
+
+  def defaults
+    defaults = {}
+    defaults["played_at"] = created_at if created_at?
+
+    defaults
+  end
 
   # Make the `json_data` field (mostly) inaccessible
   def json_data; end
