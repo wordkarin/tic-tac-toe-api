@@ -49,5 +49,18 @@ class GamesControllerTest < ActionController::TestCase
 
       assert_equal games.length, parsed_body.length
     end
+
+    test "should return a list with Game summary data" do
+      create_list(:game, 10)
+
+      get :index
+
+      parsed_body.each do |game|
+        assert_kind_of Hash, game
+
+        fields = game.keys.map(&:to_sym).to_set
+        assert_equal Game::SUMMARY_FIELDS.to_set, fields, "Invalid summary fields for game ##{game["id"] || 'null'}"
+      end
+    end
   end
 end

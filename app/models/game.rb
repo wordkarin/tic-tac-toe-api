@@ -15,7 +15,7 @@ class Game < ApplicationRecord
     write_attribute(:json_data, defaults.merge(data || {}).to_json)
   end
 
-
+  SUMMARY_FIELDS = [:id, :players, :outcome, :played_at]
   # Check out https://spacetelescope.github.io/understanding-json-schema/
   # for schema definition details.
   DATA_SCHEMA = {
