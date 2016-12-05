@@ -35,5 +35,19 @@ class GamesControllerTest < ActionController::TestCase
 
   class IndexAction < Actions
     base_tests_for_get(:index)
+
+    test "should return a list" do
+      get :index
+
+      assert_kind_of Array, parsed_body
+    end
+
+    test "should return a list with entries for each Game" do
+      games = create_list(:game, rand(1..100))
+
+      get :index
+
+      assert_equal games.length, parsed_body.length
+    end
   end
 end
