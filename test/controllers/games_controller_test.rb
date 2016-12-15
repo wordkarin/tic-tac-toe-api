@@ -104,5 +104,11 @@ class GamesControllerTest < ActionController::TestCase
         assert_equal @game.data[field], parsed_body[field], "Mismatch in returned data for game ##{@game.id}, field: #{field}"
       end
     end
+
+    test "should return Not Found for non-existent Game" do
+      get :show, params: {id: @game.id + 1}
+
+      assert_response :missing
+    end
   end
 end

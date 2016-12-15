@@ -5,6 +5,9 @@ class GamesController < ApplicationController
 
   def show
     game = Game.find_by(id: params[:id])
+    if game.nil?
+      return head :not_found
+    end
 
     render json: game, fields: Game::DETAILS_FIELDS
   end
