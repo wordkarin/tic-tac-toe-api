@@ -16,6 +16,7 @@ class Game < ApplicationRecord
   end
 
   SUMMARY_FIELDS = [:id, :players, :outcome, :played_at]
+  DETAILS_FIELDS = SUMMARY_FIELDS + [:board]
   # Check out https://spacetelescope.github.io/understanding-json-schema/
   # for schema definition details.
   DATA_SCHEMA = {

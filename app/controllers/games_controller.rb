@@ -4,6 +4,8 @@ class GamesController < ApplicationController
   end
 
   def show
-    render json: {}
+    game = Game.find_by(id: params[:id])
+
+    render json: game, fields: Game::DETAILS_FIELDS
   end
 end
