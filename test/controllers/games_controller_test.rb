@@ -12,18 +12,22 @@ class GamesControllerTest < ActionController::TestCase
   end
 
   class Actions < GamesControllerTest
-    def self.base_tests_for_get(action)
-      test "should accept GET requests" do
-        assert get action
+    def self.base_tests(verb, &request_block)
+      test "should accept #{verb} requests" do
+        assert self.instance_eval(&request_block)
       end
 
       test "should return success" do
-        get action
+        self.instance_eval(&request_block)
         assert_response :success
       end
+    end
+
+    def self.base_get_tests(&request_block)
+      base_tests("GET", &request_block)
 
       test "should return JSON" do
-        get action
+        self.instance_eval(&request_block)
         assert_equal Mime[:json].to_s, response.content_type
       end
     end
@@ -34,7 +38,9 @@ class GamesControllerTest < ActionController::TestCase
   end
 
   class IndexAction < Actions
-    base_tests_for_get(:index)
+    base_get_tests do
+      get :index
+    end
 
     test "should return a list" do
       get :index
