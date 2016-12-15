@@ -4,5 +4,6 @@ class GamesController < ApplicationController
   end
 
   def show
+    render json: {}
   end
 end

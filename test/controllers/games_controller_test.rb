@@ -74,5 +74,11 @@ class GamesControllerTest < ActionController::TestCase
     base_get_tests do
       get :show, params: {id: @game.id}
     end
+
+    test "should return a hash" do
+      get :show, params: {id: @game.id}
+
+      assert_kind_of Hash, parsed_body
+    end
   end
 end
