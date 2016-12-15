@@ -69,4 +69,10 @@ class GamesControllerTest < ActionController::TestCase
       end
     end
   end
+
+  class ShowAction < Actions
+    base_get_tests do
+      get :show, params: {id: @game.id}
+    end
+  end
 end
