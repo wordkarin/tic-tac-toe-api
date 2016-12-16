@@ -29,6 +29,13 @@ class GamesController < ApplicationController
   end
 
   def destroy
+    game = Game.find_by(id: params[:id])
+
+    raise unless game.destroy
+    head :no_content
+  rescue
+    render json: { errors: ["Could not remove Game from database"] },
+           status: :internal_server_error
   end
 
   private

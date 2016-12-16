@@ -182,5 +182,13 @@ class GamesControllerTest < ActionController::TestCase
     base_delete_tests do
       delete :destroy, params: { id: @game.id }
     end
+
+    test "should remove Game from the database" do
+      assert_difference "Game.count", -1 do
+        delete :destroy, params: { id: @game.id }
+      end
+
+      assert_nil Game.find_by(id: @game.id)
+    end
   end
 end
