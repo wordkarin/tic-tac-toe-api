@@ -15,7 +15,7 @@ class GamesController < ApplicationController
   def create
     game = Game.new(data: create_params.to_h)
     if !game.valid?
-      return render json: {},
+      return render json: { errors: game.errors.messages[:base] },
                     status: :bad_request
     end
 

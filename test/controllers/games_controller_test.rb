@@ -154,5 +154,19 @@ class GamesControllerTest < ActionController::TestCase
         post :create, params: {}
       end
     end
+
+    test "should return detailed errors for invalid Game data" do
+      post :create, params: {}
+
+      assert_equal ["errors"], parsed_body.keys, "Error response was not hash with single 'errors' key"
+
+      errors = parsed_body["errors"]
+      assert_kind_of Array, errors
+      refute_empty errors, "Error details did not include any error messages"
+
+      errors.each do |error|
+        assert_kind_of String, error
+      end
+    end
   end
 end

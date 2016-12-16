@@ -67,8 +67,9 @@ class Game < ApplicationRecord
   }
 
   def data_must_match_schema
-    if !JSON::Validator.validate(DATA_SCHEMA, self.data)
-      errors.add(:data, "has incorrect schema")
+    messages = JSON::Validator.fully_validate(DATA_SCHEMA, self.data)
+    messages.each do |message|
+      errors.add(:base, message)
     end
   end
 
