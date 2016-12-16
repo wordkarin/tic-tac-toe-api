@@ -30,6 +30,9 @@ class GamesController < ApplicationController
 
   def destroy
     game = Game.find_by(id: params[:id])
+    if game.nil?
+      return head :not_found
+    end
 
     raise unless game.destroy
     head :no_content

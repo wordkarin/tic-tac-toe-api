@@ -190,5 +190,11 @@ class GamesControllerTest < ActionController::TestCase
 
       assert_nil Game.find_by(id: @game.id)
     end
+
+    test "should return Not Found for non-existent Game" do
+      delete :destroy, params: { id: @game.id + 1 }
+
+      assert_response :missing
+    end
   end
 end
