@@ -117,8 +117,30 @@ class GamesControllerTest < ActionController::TestCase
   end
 
   class CreateAction < Actions
+    def setup
+      @success_body = {
+        board: [
+          "X", " ", "O",
+          "X", "O", " ",
+          "X", " ", " "
+        ],
+        players: [
+          "Player 1",
+          "Player 2"
+        ],
+        outcome: "X",
+        played_at: DateTime.now.rfc3339
+      }
+    end
+
     base_post_tests do
-      post :create
+      post :create, params: @success_body
+    end
+
+    test "should save valid Game data to the database" do
+      assert_difference "Game.count" do
+        post :create, params: @success_body
+      end
     end
   end
 end

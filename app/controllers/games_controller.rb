@@ -13,5 +13,20 @@ class GamesController < ApplicationController
   end
 
   def create
+    game = Game.new(data: create_params.to_h)
+    begin
+      game.save!
+      head :created, location: game_url(game)
+    rescue
+      render json: { errors: ["Could not persist Game to database"] },
+             status: :internal_server_error
+    end
+  end
+
+  private
+
+  def create_params
+    # Don't allow client to specify Game ID
+    params.slice(*Game::DETAILS_FIELDS.reject{|f|f==:id}).permit!
   end
 end
