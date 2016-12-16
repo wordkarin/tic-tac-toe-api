@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class GamesControllerTest < ActionController::TestCase
+class GamesControllerTest < ActionDispatch::IntegrationTest
   def setup
     @controller = GamesController.new
   end
@@ -47,11 +47,11 @@ class GamesControllerTest < ActionController::TestCase
 
   class IndexAction < Actions
     base_get_tests do
-      get :index
+      get games_url
     end
 
     test "should return a list" do
-      get :index
+      get games_url
 
       assert_kind_of Array, parsed_body
     end
@@ -59,7 +59,7 @@ class GamesControllerTest < ActionController::TestCase
     test "should return a list with entries for each Game" do
       games = create_list(:game, rand(1..100))
 
-      get :index
+      get games_url
 
       assert_equal games.length, parsed_body.length
     end
@@ -67,7 +67,7 @@ class GamesControllerTest < ActionController::TestCase
     test "should return a list with Game summary data" do
       create_list(:game, 10)
 
-      get :index
+      get games_url
 
       parsed_body.each do |game|
         assert_kind_of Hash, game
@@ -84,17 +84,17 @@ class GamesControllerTest < ActionController::TestCase
     end
 
     base_get_tests do
-      get :show, params: {id: @game.id}
+      get game_url(id: @game.id)
     end
 
     test "should return a hash" do
-      get :show, params: {id: @game.id}
+      get game_url(id: @game.id)
 
       assert_kind_of Hash, parsed_body
     end
 
     test "should return a hash with Game details data" do
-      get :show, params: {id: @game.id}
+      get game_url(id: @game.id)
 
       game = parsed_body
       fields = game.keys.map(&:to_sym).to_set
@@ -102,7 +102,7 @@ class GamesControllerTest < ActionController::TestCase
     end
 
     test "should return the requested Game" do
-      get :show, params: {id: @game.id}
+      get game_url(id: @game.id)
 
       # Check that the IDs match
       assert_equal @game.id, parsed_body["id"]
@@ -114,7 +114,7 @@ class GamesControllerTest < ActionController::TestCase
     end
 
     test "should return Not Found for non-existent Game" do
-      get :show, params: {id: @game.id + 1}
+      get game_url(id: @game.id + 1)
 
       assert_response :missing
     end
@@ -138,29 +138,29 @@ class GamesControllerTest < ActionController::TestCase
     end
 
     base_post_tests do
-      post :create, params: @success_body
+      post games_url, params: @success_body
     end
 
     test "should save valid Game data to the database" do
       assert_difference "Game.count" do
-        post :create, params: @success_body
+        post games_url, params: @success_body
       end
     end
 
     test "should return Bad Request for invalid Game data" do
-      post :create, params: {}
+      post games_url, params: {}
 
       assert_response :bad_request
     end
 
     test "should not save invalid Game data to the database" do
       assert_no_difference "Game.count" do
-        post :create, params: {}
+        post games_url, params: {}
       end
     end
 
     test "should return detailed errors for invalid Game data" do
-      post :create, params: {}
+      post games_url, params: {}
 
       assert_equal ["errors"], parsed_body.keys, "Error response was not hash with single 'errors' key"
 
@@ -180,19 +180,19 @@ class GamesControllerTest < ActionController::TestCase
     end
 
     base_delete_tests do
-      delete :destroy, params: { id: @game.id }
+      delete game_url(id: @game.id )
     end
 
     test "should remove Game from the database" do
       assert_difference "Game.count", -1 do
-        delete :destroy, params: { id: @game.id }
+        delete game_url(id: @game.id )
       end
 
       assert_nil Game.find_by(id: @game.id)
     end
 
     test "should return Not Found for non-existent Game" do
-      delete :destroy, params: { id: @game.id + 1 }
+      delete game_url(id: @game.id + 1 )
 
       assert_response :missing
     end
