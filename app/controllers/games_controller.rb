@@ -14,6 +14,11 @@ class GamesController < ApplicationController
 
   def create
     game = Game.new(data: create_params.to_h)
+    if !game.valid?
+      return render json: {},
+                    status: :bad_request
+    end
+
     begin
       game.save!
       head :created, location: game_url(game)

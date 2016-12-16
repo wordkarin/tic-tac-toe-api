@@ -142,5 +142,17 @@ class GamesControllerTest < ActionController::TestCase
         post :create, params: @success_body
       end
     end
+
+    test "should return Bad Request for invalid Game data" do
+      post :create, params: {}
+
+      assert_response :bad_request
+    end
+
+    test "should not save invalid Game data to the database" do
+      assert_no_difference "Game.count" do
+        post :create, params: {}
+      end
+    end
   end
 end
