@@ -11,4 +11,7 @@ class GamesController < ApplicationController
 
     render json: game, fields: Game::DETAILS_FIELDS
   end
+
+  def create
+  end
 end

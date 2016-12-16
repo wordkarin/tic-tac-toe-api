@@ -32,6 +32,10 @@ class GamesControllerTest < ActionController::TestCase
       end
     end
 
+    def self.base_post_tests(&request_block)
+      base_tests("POST", &request_block)
+    end
+
     def parsed_body
       JSON.parse(response.body)
     end
@@ -109,6 +113,12 @@ class GamesControllerTest < ActionController::TestCase
       get :show, params: {id: @game.id + 1}
 
       assert_response :missing
+    end
+  end
+
+  class CreateAction < Actions
+    base_post_tests do
+      post :create
     end
   end
 end
