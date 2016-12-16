@@ -28,6 +28,9 @@ class GamesController < ApplicationController
     end
   end
 
+  def destroy
+  end
+
   private
 
   def create_params

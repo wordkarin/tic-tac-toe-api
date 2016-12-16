@@ -36,6 +36,10 @@ class GamesControllerTest < ActionController::TestCase
       base_tests("POST", &request_block)
     end
 
+    def self.base_delete_tests(&request_block)
+      base_tests("DELETE", &request_block)
+    end
+
     def parsed_body
       JSON.parse(response.body)
     end
@@ -167,6 +171,16 @@ class GamesControllerTest < ActionController::TestCase
       errors.each do |error|
         assert_kind_of String, error
       end
+    end
+  end
+
+  class DestroyAction < Actions
+    def setup
+      @game = create(:game)
+    end
+
+    base_delete_tests do
+      delete :destroy, params: { id: @game.id }
     end
   end
 end
