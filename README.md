@@ -181,3 +181,13 @@ The following status codes may be returned in the event of an error:
 
 ### Tests
 Run `rails test` to run the full test suite.
+
+### Deployment
+This API can be deployed to [Heroku](https://heroku.com/) with the following commands (assuming you have the [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) installed):
+```bash
+$ heroku create
+$ heroku run bundle exec rails db:schema:load
+$ heroku open
+```
+
+The last command will open a browser window with your API endpoint as the URL. This API is not designed to be meaningful to people accessing it via the browser, but it does give you the correct hostname to use when integrating your deployed instance into other applications.
