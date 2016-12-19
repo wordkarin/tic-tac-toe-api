@@ -169,3 +169,15 @@ None.
 The following status codes may be returned in the event of an error:
 * `404` when the requested `Game` is not found.
 * `500` in the event of an unexpected server error.
+
+
+## Development
+### Setup
+1. Fork and clone this repository to your own account
+1. Run `bundle install` to download gem dependencies
+  * If you do not have Postgres installed on your development machine, run `bundle install --without production` instead.
+1. Run `rails server` to start the development server.
+1. Run `rails console` to access a REPL running in the Rails context.
+
+### Tests
+Run `rails test` to run the full test suite.
