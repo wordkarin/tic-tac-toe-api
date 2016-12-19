@@ -12,8 +12,9 @@ The API communicates solely through JSON-encoded messages and provides four rout
 * `POST /api/v1/games/` - Records a new, completed `Game`. Details of the game (as specified below) must be sent as a JSON-encoded document.
 * `DELETE /api/v1/games/:id` - Removes a previously recorded `Game` from the API.
 
-### Data Model
-This API only has a single model, `Game`, with the following fields:
+### JSON Schema
+#### Game
+This API only has a single model, `Game`, with the following properties:
 
 * `id` - A positive integer that uniquely identifies the game within this API. **NOTE**: When `POST`ing a new game to the API this property is ignored if it was supplied.
 * `board` - An array of strings, exactly 9 elements long. Each string within the array is either `"X"`, `"O"`, or `" "` (blank) and corresponds to the contents of a specific cell on the game board. The array is two dimensional in row-major order ([see diagram below](#game-board) for clarification).
@@ -54,7 +55,7 @@ This data corresponds to the following final game board between two players, `X 
 | X |   |   |
 
 
-#### Game Board
+##### Game Board
 The array of strings for `board` in the `Game` model is mapped to locations on the Tic-Tac-Toe game board using zero indexing:
 
 |   |   |   |
@@ -62,3 +63,16 @@ The array of strings for `board` in the `Game` model is mapped to locations on t
 | 0 | 1 | 2 |
 | 3 | 4 | 5 |
 | 6 | 7 | 8 |
+
+#### Error
+When a request is made to the API that results in an error with user-meaningful details, those details will be communicated in the response data using the following form:
+```json
+{
+  "errors": [
+    "Error message 1",
+    "Error message 2",
+    ...
+    "Error message N"
+  ]
+}
+```
