@@ -7,10 +7,10 @@ The Tic-Tac-Toe API is responsible for tracking a history of played games. Each 
 ### Overview
 The API communicates solely through JSON-encoded messages and provides four routes for working with `Game` data:
 
-* `GET /api/v1/games/` - Retrieves an index of all recorded `Game`s. Each entry in the response array is a summary of the games (it does not include the final game board).
-* `GET /api/v1/games/:id` - Retrieves the complete details of a single `Game`, including the final game board.
-* `POST /api/v1/games/` - Records a new, completed `Game`. Details of the game (as specified below) must be sent as a JSON-encoded document.
-* `DELETE /api/v1/games/:id` - Removes a previously recorded `Game` from the API.
+* [List all games](#list-all-games) - Retrieves an index of all recorded `Game`s. Each entry in the response array is a summary of the games (it does not include the final game board).
+* [Game details](#game-details) - Retrieves the complete details of a single `Game`, including the final game board.
+* [Create a game](#create-a-game) - Records a new, completed `Game`. Details of the game ([as specified below](#game)) must be sent as a JSON-encoded document.
+* [Delete a game](#delete-a-game) - Removes a previously recorded `Game` from the API.
 
 ### JSON Schema
 #### Game
@@ -76,3 +76,96 @@ When a request is made to the API that results in an error with user-meaningful 
   ]
 }
 ```
+
+### API Reference
+This is a complete reference to the Tic-Tac-Toe API version 1. All request and response data must be encoded in JSON.
+
+#### List all games
+`GET /api/v1/games`
+
+##### Request
+###### Parameters
+None.
+
+###### Data
+None.
+
+##### Response
+###### Status code
+The status code for a successful request will be `200`.
+
+###### Data
+A list of [`Game`](#game) objects. Each `Game` object will only have the "summary" information for that game, meaning it will not include the `board` property.
+
+##### Errors
+The following status codes may be returned in the event of an error:
+* `500` in the event of an unexpected server error.
+
+
+#### Game details
+`GET /api/v1/games/{game_id}`
+
+##### Request
+###### Parameters
+The ID of an existing game. This value must be acquired by first requesting a list of games and using one of the IDs from within that list.
+
+###### Data
+None.
+
+##### Response
+###### Status code
+The status code for a successful request will be `200`.
+
+###### Data
+A single [`Game`](#game) object. This object has the complete details for the game, including the `board` property.
+
+##### Errors
+The following status codes may be returned in the event of an error:
+* `404` when the requested `Game` is not found.
+* `500` in the event of an unexpected server error.
+
+
+#### Create a game
+`POST /api/v1/games`
+
+##### Request
+###### Parameters
+None.
+
+###### Data
+A single [`Game`](#game) object, without the `id` property.
+
+##### Response
+###### Status code
+The status code for a successful request will be `201`.
+
+###### Data
+None.
+
+##### Errors
+The following status codes may be returned in the event of an error:
+* `400` when the provided `Game` properties are invalid. The response data will be an [`Error`](#error) object with strings for each failed validation.
+* `500` when the `Game` was not saved due to an unexpected server error.
+
+
+#### Delete a game
+`DELETE /api/v1/games/{game_id}`
+
+##### Request
+###### Parameters
+The ID of an existing game. This value must be acquired by first requesting a list of games and using one of the IDs from within that list.
+
+###### Data
+None.
+
+##### Response
+###### Status code
+The status code for a successful request will be `204`.
+
+###### Data
+None.
+
+##### Errors
+The following status codes may be returned in the event of an error:
+* `404` when the requested `Game` is not found.
+* `500` in the event of an unexpected server error.
