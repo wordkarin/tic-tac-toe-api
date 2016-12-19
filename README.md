@@ -16,7 +16,7 @@ The API communicates solely through JSON-encoded messages and provides four rout
 This API only has a single model, `Game`, with the following fields:
 
 * `id` - A positive integer that uniquely identifies the game within this API. **NOTE**: When `POST`ing a new game to the API this property is ignored if it was supplied.
-* `board` - An array of strings, exactly 9 elements long. Each string within the array is either `"X"`, `"O"`, or `" "` (blank) and corresponds to the contents of a specific cell on the game board. The array is two dimensional in row-major order (see diagram below for clarification).
+* `board` - An array of strings, exactly 9 elements long. Each string within the array is either `"X"`, `"O"`, or `" "` (blank) and corresponds to the contents of a specific cell on the game board. The array is two dimensional in row-major order ([see diagram below](#game-board) for clarification).
 * `players` - An array of strings, exactly 2 elements long. Each string corresponds to the name of a single player for this game. The first element is always the player represented by X on the board, and the second element is always the player represented by O on the board. **NOTE**: The second player's name is strictly optional, and will default to `"Anonymous"` if unspecified when `POST`ing a new game to the API.
 * `outcome` - A string representing the result of the game. The only valid values are `"X"` (for X winning), `"O"` (for O winning), and `"draw"` (for a tie).
 * `played_at` - A date & time representing when the game was completed and recorded by the API. Because JSON does not have a built-in date datatype this property is encoded as a string using the [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601). **NOTE**: This property is optional when `POST`ing a new game to the API. The server will use the current date & time if one is not provided.
@@ -55,7 +55,7 @@ This data corresponds to the following final game board between two players, `X 
 
 
 #### Game Board
-The array of strings for `board` in the `Game` model is mapped to locations on the Tic-Tac-Toe game board thusly (using zero indexing):
+The array of strings for `board` in the `Game` model is mapped to locations on the Tic-Tac-Toe game board using zero indexing:
 
 |   |   |   |
 |:-:|:-:|:-:|
